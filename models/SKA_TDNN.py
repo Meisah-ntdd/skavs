@@ -208,31 +208,6 @@ class fwSKAttention(nn.Module):
         return V
 
 
-class cwSKAttention(nn.Module):
-    
-    def __init__(self, freq=40, channel=128, kernels=[3,5], receptive=[3,5], dilations=[1,1], reduction=8, groups=1, L=16):
-        super(cwSKAttention, self).__init__()
-        self.convs = nn.ModuleList([])
-        for k, d, r in zip(kernels, dilations, receptive):
-            self.convs += [
-                nn.Sequential(
-                    OrderedDict(
-                        [
-                            ('conv', nn.Conv2d(channel, channel, kernel_size=k, padding=r//2, dilation=d, groups=groups)),
-                            ('relu', nn.ReLU()),
-                            ('bn', nn.BatchNorm2d(channel)),
-                        ]
-                    )
-                )
-            ]
-        self.avg_pool = nn.AdaptiveAvgPool2d(1)
-        self.D = max(L, channel//reduction)
-        self.fc = nn.Linear(channel, self.D)
-        self.relu = nn.ReLU()
-        self.fcs = nn.ModuleList([])
-        for i in range(len(kernels)):
-            self.fcs += [nn.Linear(self.D, channel)]
-        self.softmax = nn.Softmax(dim=0)
 
     def forward(self, x):
         '''

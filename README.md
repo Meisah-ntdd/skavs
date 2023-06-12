@@ -1,7 +1,9 @@
 # SKASV
 
+![image-20230612145122592](C:\Users\meisah\AppData\Roaming\Typora\typora-user-images\image-20230612145122592.png)
 
 ## Data Preparation
+
 The [VoxCeleb](https://mm.kaist.ac.kr/datasets/voxceleb/) datasets are used for these experiments.
 The train list should contain the file path and speaker identity for instance,
 ```
